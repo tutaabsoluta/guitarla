@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useMemo } from "react";
-const Header = ({ cart, removeFromCart, increaseQuantity, decreaseQuantity }) => {
+const Header = ({ cart, removeFromCart, increaseQuantity, decreaseQuantity, clearCart }) => {
 
 
   // State Derivado
@@ -19,7 +19,7 @@ const Header = ({ cart, removeFromCart, increaseQuantity, decreaseQuantity }) =>
               <a href="index.html">
                 <img
                   className="img-fluid"
-                  src="img/logo.svg"
+                  src="/img/logo.svg"
                   alt="imagen logo"
                 />
               </a>
@@ -28,7 +28,7 @@ const Header = ({ cart, removeFromCart, increaseQuantity, decreaseQuantity }) =>
               <div className="carrito">
                 <img
                   className="img-fluid"
-                  src="img/carrito.png"
+                  src="/img/carrito.png"
                   alt="imagen carrito"
                 />
 
@@ -53,7 +53,7 @@ const Header = ({ cart, removeFromCart, increaseQuantity, decreaseQuantity }) =>
                               <td>
                                 <img
                                   className="img-fluid"
-                                  src={`img/${guitar.image}.jpg`}
+                                  src={`/img/${guitar.image}.jpg`}
                                   alt="imagen guitarra"
                                 />
                               </td>
@@ -95,7 +95,10 @@ const Header = ({ cart, removeFromCart, increaseQuantity, decreaseQuantity }) =>
                       </p>
                     </>
                   )}
-                  <button className="btn btn-dark w-100 mt-3 p-2">
+                  <button 
+                    className="btn btn-dark w-100 mt-3 p-2"
+                    onClick={clearCart}
+                  >
                     Vaciar Carrito
                   </button>
                 </div>

@@ -5,8 +5,15 @@ import Guitar from "./components/Guitar";
 import { db } from "./data/db";
 
 function App() {
-  const [data, setData] = useState(db);
-  const [cart, setCart] = useState([]);
+
+  // Check Local Storage
+  const initialCart = () => {
+    const localStorageCart = localStorage.getItem('cart')
+    return localStorageCart ? JSON.parse(localStorageCart) : []
+  }
+
+  const [data] = useState(db);
+  const [cart, setCart] = useState(initialCart);
 
   const MAX_ITEMS = 5
   const MIN_ITEMS = 1
@@ -23,6 +30,11 @@ function App() {
       item.quantity = 1;
       setCart([...cart, item]);
     }
+  }
+
+  // Clear cart
+  function clearCart() {
+    setCart([]);
   }
 
   // Remove from cart
@@ -58,6 +70,12 @@ function App() {
     setCart(updatedCart)
   }
 
+  // Save to Local Storage
+  useEffect(() => {
+    localStorage.setItem('cart', JSON.stringify(cart))
+  }, [cart]);
+
+
   return (
     <>
       <Header 
@@ -65,6 +83,7 @@ function App() {
         removeFromCart={removeFromCart}
         increaseQuantity={increaseQuantity}
         decreaseQuantity={decreaseQuantity}
+        clearCart={clearCart}
       />
 
       <main className="container-xl mt-5">
@@ -100,6 +119,13 @@ function App() {
 export default App;
 
 // updatedCart[itemExists]++: itemExists es el indice
+
 // setCart(prevCart => prevCart.filter( guitar => guitar.id !== id )):
 // Filtra las guitarras cuyo id es diferente al que se pasa por parametro
+
 // El segundo return de increaseQuantity es para que el resto de elementos a los que no le di click para incrementar la cantidad se mantengan
+
+// El State en React es asincrono. La funcion saveLocalStorage se manda a llamar aun cuando el state no ha sido modificado. El State no se actualiza inmediatamente. POrque: si fuera sincrono no podria presionar en la pantalla hasta que no escriba ese State, lo dejaria sin respuesta
+
+// Lo anterior se soluciona con useEffect.
+
